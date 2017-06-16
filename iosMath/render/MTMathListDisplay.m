@@ -170,8 +170,7 @@ static BOOL isIos6Supported() {
     NSUInteger _index;
 }
 
-
-- (instancetype) initWithDisplays:(NSArray<MTDisplay*>*) displays range:(NSRange) range
+- (instancetype) initWithDisplays:(NSArray<MTDisplay*>*) displays range:(NSRange)range
 {
     self = [super init];
     if (self) {
@@ -780,4 +779,36 @@ static BOOL isIos6Supported() {
     
     CGContextRestoreGState(context);
 }
+@end
+
+#pragma mark - MTCustomDisplay
+
+@implementation MTCustomDisplay
+
+- (instancetype)initWithCustomAtom:(MTMathCustom *)customAtom position:(CGPoint)position range:(NSRange)range
+{
+    self = [super init];
+    if (self) {
+        self.position = position;
+        self.range = range;
+        self.width = 80;
+        self.descent = 5;
+        self.ascent = 15;
+    }
+    return self;
+}
+
+- (void)draw:(CGContextRef)context
+{
+    CGContextSaveGState(context);
+    
+    [[UIColor greenColor] setStroke];
+    
+    CGRect bounds = [self displayBounds];
+    MTBezierPath* path = [MTBezierPath bezierPathWithRect:bounds];
+    [path stroke];
+    
+    CGContextRestoreGState(context);
+}
+
 @end

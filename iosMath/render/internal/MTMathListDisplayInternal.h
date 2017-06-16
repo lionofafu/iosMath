@@ -111,3 +111,11 @@
 - (instancetype)initWithAccent:(MTGlyphDisplay*) glyph accentee:(MTMathListDisplay*) accentee range:(NSRange) range NS_DESIGNATED_INITIALIZER;
 
 @end
+
+@interface MTCustomDisplay ()
+
+- (instancetype)initWithCustomAtom:(MTMathCustom*) customAtom position:(CGPoint)position range:(NSRange) range NS_DESIGNATED_INITIALIZER;
+
+- (instancetype)init NS_UNAVAILABLE;
+
+@end

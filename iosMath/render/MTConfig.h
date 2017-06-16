@@ -24,6 +24,7 @@ typedef UIBezierPath    MTBezierPath;
 typedef UIEdgeInsets    MTEdgeInsets;
 typedef UILabel         MTLabel;
 typedef CGRect          MTRect;
+typedef UITextField     MTTextField;
 
 #define MTEdgeInsetsZero UIEdgeInsetsZero
 #define MTGraphicsGetCurrentContext() UIGraphicsGetCurrentContext()

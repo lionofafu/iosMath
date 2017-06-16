@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MTTypesetter : NSObject
 
 /// Renders a MTMathList as a list of displays.
-+ (MTMathListDisplay*) createLineForMathList:(MTMathList*) mathList font:(MTFont*) font style:(MTLineStyle) style;
++ (MTMathListDisplay*) createLineForMathList:(MTMathList*) mathList font:(MTFont*) font style:(MTLineStyle) style customDisplays:(NSArray<MTCustomDisplay *> *_Nullable*_Nullable) customDisplays;
 
 @end
 

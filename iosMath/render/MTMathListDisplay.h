@@ -184,4 +184,11 @@ typedef NS_ENUM(unsigned int, MTLinePosition)  {
 
 @end
 
+/// 渲染一块占位区域用来显示customview
+@interface MTCustomDisplay : MTDisplay
+
+- (instancetype)init NS_UNAVAILABLE;
+
+@end
+
 NS_ASSUME_NONNULL_END
