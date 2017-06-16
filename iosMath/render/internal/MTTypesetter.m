@@ -451,7 +451,6 @@ static void getBboxDetails(CGRect bbox, CGFloat* ascent, CGFloat* descent)
     BOOL _cramped;
     BOOL _spaced;
     NSMutableArray<MTDisplay *>* _transformDisplayCustoms;
-    CGPoint _currentTransformPosition;
 }
 
 static NSMutableArray *CustomDisplays;
@@ -1887,319 +1886,28 @@ static const CGFloat kJotMultiplier = 0.3; // A jot is 3pt for a 10pt font.
 {
     _transformDisplayCustoms = [NSMutableArray array];
     
-    [self transformDisplaysList:displayList];
+    [self transformDisplaysList:displayList parentPosition:displayList.position];
 }
 
-- (void)transformDisplaysList:(MTMathListDisplay *)displayList
+CGPoint CGPointSumPointA(CGPoint pointA, CGPoint pointB)
+{
+    CGPoint sumPoint = CGPointMake(pointA.x + pointB.x, pointA.y + pointB.y);
+    return sumPoint;
+}
+
+- (void)transformDisplaysList:(MTMathListDisplay *)displayList parentPosition:(CGPoint)parentPosition
 {
     for (MTDisplay* display in displayList.subDisplays) {
-        if ([display isKindOfClass:[MTFraction class]]) {
-            
+        CGPoint newPosition = CGPointSumPointA(parentPosition, display.position);
+        if ([display isKindOfClass:[MTFractionDisplay class]]) {
+            MTFractionDisplay *fracDisplay = (MTFractionDisplay *)display;
+            [self transformDisplaysList:fracDisplay.numerator parentPosition:newPosition];
+            [self transformDisplaysList:fracDisplay.denominator parentPosition:newPosition];
+        }else if ([display isKindOfClass:[MTRadicalDisplay class]]) {
+            MTRadicalDisplay *radicalDisplay = (MTRadicalDisplay *)display;
+            [self transformDisplaysList:radicalDisplay.radicand parentPosition:newPosition];
+            [self transformDisplaysList:radicalDisplay.degree parentPosition:newPosition];
         }
-        
-        
-        switch (atom.type) {
-            case kMTMathAtomNumber:
-            case kMTMathAtomVariable:
-            case kMTMathAtomUnaryOperator:
-                // These should never appear as they should have been removed by preprocessing
-                NSAssert(NO, @"These types should never show here as they are removed by preprocessing.");
-                break;
-                
-            case kMTMathAtomBoundary:
-                NSAssert(NO, @"A boundary atom should never be inside a mathlist.");
-                break;
-                
-            case kMTMathAtomSpace: {
-                // stash the existing layout
-                if (_currentLine.length > 0) {
-                    [self addDisplayLine];
-                }
-                MTMathSpace* space = (MTMathSpace*) atom;
-                // add the desired space
-                _currentPosition.x += space.space * _styleFont.mathTable.muUnit;
-                // Since this is extra space, the desired interelement space between the prevAtom
-                // and the next node is still preserved. To avoid resetting the prevAtom and lastType
-                // we skip to the next node.
-                continue;
-            }
-                
-            case kMTMathAtomStyle: {
-                // stash the existing layout
-                if (_currentLine.length > 0) {
-                    [self addDisplayLine];
-                }
-                MTMathStyle* style = (MTMathStyle*) atom;
-                self.style = style.style;
-                // We need to preserve the prevNode for any interelement space changes.
-                // so we skip to the next node.
-                continue;
-            }
-                
-            case kMTMathAtomColor: {
-                // stash the existing layout
-                if (_currentLine.length > 0) {
-                    [self addDisplayLine];
-                }
-                MTMathColor* colorAtom = (MTMathColor*) atom;
-                MTDisplay* display = [MTTypesetter createLineForMathList:colorAtom.innerList font:_font style:_style cramped:false];
-                display.localTextColor = [MTColor colorFromHexString:colorAtom.colorString];
-                display.position = _currentPosition;
-                _currentPosition.x += display.width;
-                [_displayAtoms addObject:display];
-                break;
-            }
-                
-            case kMTMathAtomRadical: {
-                // stash the existing layout
-                if (_currentLine.length > 0) {
-                    [self addDisplayLine];
-                }
-                MTRadical* rad = (MTRadical*) atom;
-                // Radicals are considered as Ord in rule 16.
-                [self addInterElementSpace:prevNode currentType:kMTMathAtomOrdinary];
-                MTRadicalDisplay* displayRad = [self makeRadical:rad.radicand range:rad.indexRange];
-                if (rad.degree) {
-                    // add the degree to the radical
-                    MTMathListDisplay* degree = [MTTypesetter createLineForMathList:rad.degree font:_font style:kMTLineStyleScriptScript cramped:false];
-                    [displayRad setDegree:degree fontMetrics:_styleFont.mathTable];
-                }
-                [_displayAtoms addObject:displayRad];
-                _currentPosition.x += displayRad.width;
-                
-                // add super scripts || subscripts
-                if (atom.subScript || atom.superScript) {
-                    [self makeScripts:atom display:displayRad index:rad.indexRange.location delta:0];
-                }
-                // change type to ordinary
-                //atom.type = kMTMathAtomOrdinary;
-                break;
-            }
-                
-            case kMTMathAtomFraction: {
-                // stash the existing layout
-                if (_currentLine.length > 0) {
-                    [self addDisplayLine];
-                }
-                MTFraction* frac = (MTFraction*) atom;
-                [self addInterElementSpace:prevNode currentType:atom.type];
-                MTDisplay* display = [self makeFraction:frac];
-                [_displayAtoms addObject:display];
-                _currentPosition.x += display.width;
-                // add super scripts || subscripts
-                if (atom.subScript || atom.superScript) {
-                    [self makeScripts:atom display:display index:frac.indexRange.location delta:0];
-                }
-                break;
-            }
-                
-            case kMTMathAtomLargeOperator: {
-                // stash the existing layout
-                if (_currentLine.length > 0) {
-                    [self addDisplayLine];
-                }
-                [self addInterElementSpace:prevNode currentType:atom.type];
-                MTLargeOperator* op = (MTLargeOperator*) atom;
-                MTDisplay* display = [self makeLargeOp:op];
-                [_displayAtoms addObject:display];
-                break;
-            }
-                
-            case kMTMathAtomInner: {
-                // stash the existing layout
-                if (_currentLine.length > 0) {
-                    [self addDisplayLine];
-                }
-                [self addInterElementSpace:prevNode currentType:atom.type];
-                MTInner* inner = (MTInner*) atom;
-                MTDisplay* display = nil;
-                if (inner.leftBoundary || inner.rightBoundary) {
-                    display = [self makeLeftRight:inner];
-                } else {
-                    display = [MTTypesetter createLineForMathList:inner.innerList font:_font style:_style cramped:_cramped];
-                }
-                display.position = _currentPosition;
-                _currentPosition.x += display.width;
-                [_displayAtoms addObject:display];
-                // add super scripts || subscripts
-                if (atom.subScript || atom.superScript) {
-                    [self makeScripts:atom display:display index:atom.indexRange.location delta:0];
-                }
-                break;
-            }
-                
-            case kMTMathAtomUnderline: {
-                // stash the existing layout
-                if (_currentLine.length > 0) {
-                    [self addDisplayLine];
-                }
-                // Underline is considered as Ord in rule 16.
-                [self addInterElementSpace:prevNode currentType:kMTMathAtomOrdinary];
-                atom.type = kMTMathAtomOrdinary;
-                
-                MTUnderLine* under = (MTUnderLine*) atom;
-                MTDisplay* display = [self makeUnderline:under];
-                [_displayAtoms addObject:display];
-                _currentPosition.x += display.width;
-                // add super scripts || subscripts
-                if (atom.subScript || atom.superScript) {
-                    [self makeScripts:atom display:display index:atom.indexRange.location delta:0];
-                }
-                break;
-            }
-                
-            case kMTMathAtomOverline: {
-                // stash the existing layout
-                if (_currentLine.length > 0) {
-                    [self addDisplayLine];
-                }
-                // Overline is considered as Ord in rule 16.
-                [self addInterElementSpace:prevNode currentType:kMTMathAtomOrdinary];
-                atom.type = kMTMathAtomOrdinary;
-                
-                MTOverLine* over = (MTOverLine*) atom;
-                MTDisplay* display = [self makeOverline:over];
-                [_displayAtoms addObject:display];
-                _currentPosition.x += display.width;
-                // add super scripts || subscripts
-                if (atom.subScript || atom.superScript) {
-                    [self makeScripts:atom display:display index:atom.indexRange.location delta:0];
-                }
-                break;
-            }
-                
-            case kMTMathAtomAccent: {
-                // stash the existing layout
-                if (_currentLine.length > 0) {
-                    [self addDisplayLine];
-                }
-                // Accent is considered as Ord in rule 16.
-                [self addInterElementSpace:prevNode currentType:kMTMathAtomOrdinary];
-                atom.type = kMTMathAtomOrdinary;
-                
-                MTAccent* accent = (MTAccent*) atom;
-                MTDisplay* display = [self makeAccent:accent];
-                [_displayAtoms addObject:display];
-                _currentPosition.x += display.width;
-                
-                // add super scripts || subscripts
-                if (atom.subScript || atom.superScript) {
-                    [self makeScripts:atom display:display index:atom.indexRange.location delta:0];
-                }
-                break;
-            }
-                
-            case kMTMathAtomTable: {
-                // stash the existing layout
-                if (_currentLine.length > 0) {
-                    [self addDisplayLine];
-                }
-                // We will consider tables as inner
-                [self addInterElementSpace:prevNode currentType:kMTMathAtomInner];
-                atom.type = kMTMathAtomInner;
-                
-                MTMathTable* table = (MTMathTable*) atom;
-                MTDisplay* display = [self makeTable:table];
-                [_displayAtoms addObject:display];
-                _currentPosition.x += display.width;
-                // A table doesn't have subscripts or superscripts
-                break;
-            }
-                
-            case kMTMathAtomOrdinary:
-            case kMTMathAtomBinaryOperator:
-            case kMTMathAtomRelation:
-            case kMTMathAtomOpen:
-            case kMTMathAtomClose:
-            case kMTMathAtomPlaceholder:
-            case kMTMathAtomPunctuation: {
-                // the rendering for all the rest is pretty similar
-                // All we need is render the character and set the interelement space.
-                if (prevNode) {
-                    CGFloat interElementSpace = [self getInterElementSpace:prevNode.type right:atom.type];
-                    if (_currentLine.length > 0) {
-                        if (interElementSpace > 0) {
-                            // add a kerning of that space to the previous character
-                            [_currentLine addAttribute:(NSString*) kCTKernAttributeName
-                                                 value:[NSNumber numberWithFloat:interElementSpace]
-                                                 range:[_currentLine.string rangeOfComposedCharacterSequenceAtIndex:_currentLine.length - 1]];
-                        }
-                    } else {
-                        // increase the space
-                        _currentPosition.x += interElementSpace;
-                    }
-                }
-                NSAttributedString* current = nil;
-                if (atom.type == kMTMathAtomPlaceholder) {
-                    MTColor* color = [MTTypesetter placeholderColor];
-                    current = [[NSAttributedString alloc] initWithString:atom.nucleus
-                                                              attributes:@{ (NSString*) kCTForegroundColorAttributeName : (id) color.CGColor }];
-                } else {
-                    current = [[NSAttributedString alloc] initWithString:atom.nucleus];
-                }
-                [_currentLine appendAttributedString:current];
-                // add the atom to the current range
-                if (_currentLineIndexRange.location == NSNotFound) {
-                    _currentLineIndexRange = atom.indexRange;
-                } else {
-                    _currentLineIndexRange.length += atom.indexRange.length;
-                }
-                // add the fused atoms
-                if (atom.fusedAtoms) {
-                    [_currentAtoms addObjectsFromArray:atom.fusedAtoms];
-                } else {
-                    [_currentAtoms addObject:atom];
-                }
-                // add super scripts || subscripts
-                if (atom.subScript || atom.superScript) {
-                    // stash the existing line
-                    // We don't check _currentLine.length here since we want to allow empty lines with super/sub scripts.
-                    MTCTLineDisplay* line = [self addDisplayLine];
-                    CGFloat delta = 0;
-                    if (atom.nucleus.length > 0) {
-                        // Use the italic correction of the last character.
-                        CGGlyph glyph = [self findGlyphForCharacterAtIndex:atom.nucleus.length - 1 inString:atom.nucleus];
-                        delta = [_styleFont.mathTable getItalicCorrection:glyph];
-                    }
-                    if (delta > 0 && !atom.subScript) {
-                        // Add a kern of delta
-                        _currentPosition.x += delta;
-                    }
-                    [self makeScripts:atom display:line index:NSMaxRange(atom.indexRange) - 1 delta:delta];
-                }
-                break;
-            }
-            case kMTMathAtomCustom: {
-                // stash the existing layout
-                if (_currentLine.length > 0) {
-                    [self addDisplayLine];
-                }
-                // Accent is considered as Ord in rule 16.
-                [self addInterElementSpace:prevNode currentType:kMTMathAtomCustom];
-                
-                MTMathCustom* custom = (MTMathCustom*) atom;
-                MTDisplay* display = [self makeCustomDisplay:custom];
-                [_displayAtoms addObject:display];
-                _currentPosition.x += display.width;
-                
-                // add super scripts || subscripts
-                if (atom.subScript || atom.superScript) {
-                    [self makeScripts:atom display:display index:atom.indexRange.location delta:0];
-                }
-                break;
-            }
-        }
-        lastType = atom.type;
-        prevNode = atom;
-    }
-    if (_currentLine.length > 0) {
-        [self addDisplayLine];
-    }
-    if (_spaced && lastType) {
-        // If _spaced then add an interelement space between the last type and close
-        MTDisplay* display = [_displayAtoms lastObject];
-        CGFloat interElementSpace = [self getInterElementSpace:lastType right:kMTMathAtomClose];
-        display.width += interElementSpace;
     }
 }
 
