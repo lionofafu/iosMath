@@ -10,6 +10,7 @@
 //
 
 #import "MTMathList.h"
+#import "MTCustomUtil.h"
 
 // Returns true if the current binary operator is not really binary.
 static BOOL isNotBinaryOperator(MTMathAtom* prevNode)
@@ -70,6 +71,8 @@ static NSString* typeToText(MTMathAtomType type) {
             return @"Color";
         case kMTMathAtomTable:
             return @"Table";
+        case kMTMathAtomCustom:
+            return @"Custom";
     }
 }
 
@@ -121,6 +124,9 @@ static NSString* typeToText(MTMathAtomType type) {
         
         case kMTMathAtomColor:
             return [[MTMathColor alloc] init];
+            
+        case kMTMathAtomCustom:
+            return [[MTMathCustom alloc] initWithValue:value];
             
         default:
             return [[MTMathAtom alloc] initWithType:type value:value];
@@ -621,6 +627,47 @@ static NSString* typeToText(MTMathAtomType type) {
     MTMathSpace* op = [super copyWithZone:zone];
     op->_space = self.space;
     return op;
+}
+
+@end
+
+#pragma mark - MTMathCustom
+
+@implementation MTMathCustom
+
+- (instancetype)initWithValue:(NSString *)value
+{
+    self = [super initWithType:kMTMathAtomCustom value:@""];
+    if (self) {
+        _customString = value;
+    }
+    return self;
+}
+
+- (instancetype)initWithType:(MTMathAtomType)type value:(NSString *)value
+{
+    if (type == kMTMathAtomCustom) {
+        return [self initWithValue:@""];
+    }
+    @throw [NSException exceptionWithName:@"InvalidMethod"
+                                   reason:@"[MTMathSpace initWithType:value:] cannot be called. Use [MTMathSpace initWithSpace:] instead."
+                                 userInfo:nil];
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    MTMathCustom* op = [super copyWithZone:zone];
+    op->_customString = self.customString;
+    return op;
+}
+
+- (NSString *)stringValue
+{
+    NSMutableString* str = [NSMutableString string];
+    [str appendString:[OriginStartString copy]];
+    [str appendString:self.customString];
+    [str appendString:[OriginEndString copy]];
+    return str;
 }
 
 @end

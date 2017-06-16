@@ -80,6 +80,9 @@ typedef NS_ENUM(NSUInteger, MTMathAtomType)
     /// halign which is handled outside of the TeX math rendering engine. We bring it into our
     /// math typesetting to handle matrices and other tables.
     kMTMathAtomTable = 1001,
+    
+    // 自定义字符串Atom
+    kMTMathAtomCustom = 10001,
 };
 
 /**
@@ -291,6 +294,21 @@ typedef NS_ENUM(NSUInteger, MTFontStyle)
 @property (nonatomic, readonly) CGFloat space;
 
 @end
+
+/** 一个处理自定义字符串的atom
+ */
+@interface MTMathCustom : MTMathAtom
+
+/** 用给定的自定义字符串创建一个 `MTMathCustom`
+ @param customString 自定义字符串
+ */
+- (instancetype) initWithValue:(NSString*) value NS_DESIGNATED_INITIALIZER;
+
+/** 自定义字符串 */
+@property (nonatomic, nullable) NSString* customString;
+
+@end
+
 
 /**
  @typedef MTLineStyle

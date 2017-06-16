@@ -11,6 +11,7 @@
 
 #import "MTMathListBuilder.h"
 #import "MTMathAtomFactory.h"
+#import "MTCustomUtil.h"
 
 NSString *const MTParseError = @"ParseError";
 
@@ -51,6 +52,7 @@ NSString *const MTParseError = @"ParseError";
 {
     self = [super init];
     if (self) {
+        str = [MTCustomUtil encodeCustomString:str];
         _error = nil;
         _chars = malloc(sizeof(unichar)*str.length);
         _length = str.length;
@@ -171,6 +173,24 @@ NSString *const MTParseError = @"ParseError";
             NSString* errorMessage = @"Mismatched braces.";
             [self setError:MTParseErrorMismatchBraces message:errorMessage];
             return nil;
+        } else if (ch == CustomStartChar) {
+            // 遇到自定义字符串开始符
+            NSString* customString = [self readCustomStringStopChar:CustomEndChar];
+            atom = [self atomForCustomString:customString];
+            prevAtom = atom;
+            [list addAtom:atom];
+            if (oneCharOnly) {
+                return list;
+            }
+            continue;
+        } else if (ch == CustomEndChar) {
+            NSAssert(!oneCharOnly, @"This should have been handled before");
+            NSAssert(stop == 0, @"This should have been handled before");
+            // We encountered a closing brace when there is no stop set, that means there was no
+            // corresponding opening brace.
+            NSString* errorMessage = @"Mismatched braces.";
+            [self setError:MTParseErrorMismatchBraces message:errorMessage];
+            return nil;
         } else if (ch == '\\') {
             // \ means a command
             NSString* command = [self readCommand];
@@ -245,6 +265,9 @@ NSString *const MTParseError = @"ParseError";
         if (stop == '}') {
             // We did not find a corresponding closing brace.
             [self setError:MTParseErrorMismatchBraces message:@"Missing closing brace"];
+        } else if (stop == CustomEndChar) {
+            // We did not find a corresponding closing brace.
+            [self setError:MTParseErrorMismatchBraces message:@"Missing closing brace"];
         } else {
             // we never found our stop character
             NSString* errorMessage = [NSString stringWithFormat:@"Expected character not found: %d", stop];
@@ -252,6 +275,20 @@ NSString *const MTParseError = @"ParseError";
         }
     }
     return list;
+}
+
+- (NSString*) readCustomStringStopChar:(unichar) stop
+{
+    NSMutableString* mutable = [NSMutableString string];
+    while([self hasCharacters]) {
+        unichar ch = [self getNextCharacter];
+        if (ch != stop) {
+            [mutable appendString:[NSString stringWithCharacters:&ch length:1]];
+        } else {
+            break;
+        }
+    }
+    return mutable;
 }
 
 - (NSString*) readString
@@ -505,6 +542,12 @@ NSString *const MTParseError = @"ParseError";
         [self setError:MTParseErrorInvalidCommand message:errorMessage];
         return nil;
     }
+}
+
+- (MTMathCustom*) atomForCustomString:(NSString*) string
+{
+    MTMathCustom* atom = [[MTMathCustom alloc] initWithValue:string];
+    return atom;
 }
 
 - (MTMathList*) stopCommand:(NSString*) command list:(MTMathList*) list stopChar:(unichar) stopChar
