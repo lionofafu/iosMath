@@ -828,7 +828,7 @@
 			buildSettings = {
 				INFOPLIST_FILE = "iosMathExample/iosMath-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				PRODUCT_BUNDLE_IDENTIFIER = MathChat.iosMathExample;
+				PRODUCT_BUNDLE_IDENTIFIER = com.knowin.RapidCalculation;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
@@ -841,7 +841,7 @@
 			buildSettings = {
 				INFOPLIST_FILE = "iosMathExample/iosMath-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				PRODUCT_BUNDLE_IDENTIFIER = MathChat.iosMathExample;
+				PRODUCT_BUNDLE_IDENTIFIER = com.knowin.RapidCalculation;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
