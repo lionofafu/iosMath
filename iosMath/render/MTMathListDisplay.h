@@ -189,6 +189,10 @@ typedef NS_ENUM(unsigned int, MTLinePosition)  {
 
 - (instancetype)init NS_UNAVAILABLE;
 
+/** 相对于最外层的position
+ */
+@property (nonatomic) CGPoint truePosition;
+
 @end
 
 NS_ASSUME_NONNULL_END

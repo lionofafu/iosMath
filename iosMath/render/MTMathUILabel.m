@@ -180,8 +180,7 @@
 - (void) layoutSubviews
 {
     if (_mathList) {
-        NSArray *customDisplays;
-        _displayList = [MTTypesetter createLineForMathList:_mathList font:_font style:self.currentStyle customDisplays:&customDisplays];
+        _displayList = [MTTypesetter createLineForMathList:_mathList font:_font style:self.currentStyle];
         _displayList.textColor = _textColor;
         
         // Determine x position based on alignment
@@ -207,14 +206,6 @@
         }
         CGFloat textY = (availableHeight - height) / 2 + _displayList.descent + self.contentInsets.bottom;
         _displayList.position = CGPointMake(textX, textY);
-        
-        MTCustomDisplay *display = customDisplays.lastObject;
-        CGRect rect = display.displayBounds;
-        rect.origin.x += (28+36+_displayList.position.x);
-        rect.origin.y += (_displayList.position.y);
-        UIView *test = [[UIView alloc] initWithFrame:rect];
-        test.backgroundColor = [UIColor redColor];
-        [self addSubview:test];
     } else {
         _displayList = nil;
     }
@@ -234,8 +225,16 @@
 {
     MTMathListDisplay* displayList = nil;
     if (_mathList) {
-        displayList = [MTTypesetter createLineForMathList:_mathList font:_font style:self.currentStyle customDisplays:nil];
+        displayList = [MTTypesetter createLineForMathList:_mathList font:_font style:self.currentStyle];
     }
+    
+    NSArray *customDisplays = [MTTypesetterHelper collectCustomDisplaysWith:displayList];
+    MTCustomDisplay *display = customDisplays.lastObject;
+    CGRect rect = CGRectMake(display.truePosition.x, display.truePosition.y - display.descent, display.width, display.ascent + display.descent);
+    UIView *test = [[UIView alloc] initWithFrame:rect];
+    test.backgroundColor = [UIColor redColor];
+    [self addSubview:test];
+    
     self.backgroundColor = [UIColor lightGrayColor];
     
     size.width = displayList.width + self.contentInsets.left + self.contentInsets.right;

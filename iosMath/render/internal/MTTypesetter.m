@@ -450,19 +450,13 @@ static void getBboxDetails(CGRect bbox, CGFloat* ascent, CGFloat* descent)
     MTFont* _styleFont;
     BOOL _cramped;
     BOOL _spaced;
-    NSMutableArray<MTDisplay *>* _transformDisplayCustoms;
 }
 
-static NSMutableArray *CustomDisplays;
-+ (MTMathListDisplay *)createLineForMathList:(MTMathList *)mathList font:(MTFont*)font style:(MTLineStyle)style customDisplays:(NSArray<MTCustomDisplay *> *__autoreleasing  _Nullable * _Nullable)customDisplays
++ (MTMathListDisplay *)createLineForMathList:(MTMathList *)mathList font:(MTFont*)font style:(MTLineStyle)style
 {
-    CustomDisplays = [NSMutableArray array];
     MTMathList* finalizedList = mathList.finalized;
     // default is not cramped
     MTMathListDisplay *lineForMathList = [self createLineForMathList:finalizedList font:font style:style cramped:false];
-    if (customDisplays) {
-        *customDisplays = [CustomDisplays copy];
-    }
     return lineForMathList;
 }
 
@@ -480,9 +474,6 @@ static NSMutableArray *CustomDisplays;
     MTTypesetter *typesetter = [[MTTypesetter alloc] initWithFont:font style:style cramped:cramped spaced:spaced];
     [typesetter createDisplayAtoms:preprocessedAtoms];
     MTMathAtom* lastAtom = mathList.atoms.lastObject;
-    if (typesetter->_transformDisplayCustoms.count > 0) {
-        [CustomDisplays addObjectsFromArray:typesetter->_transformDisplayCustoms];
-    }
     MTMathListDisplay* line = [[MTMathListDisplay alloc] initWithDisplays:typesetter->_displayAtoms range:NSMakeRange(0, NSMaxRange(lastAtom.indexRange))];
     return line;
 }
@@ -1879,36 +1870,6 @@ static const CGFloat kJotMultiplier = 0.3; // A jot is 3pt for a 10pt font.
                                                                      range:custom.indexRange];
     
     return display;
-}
-
-#pragma mark - TransformCustomDisplaysPosition
-- (void)transformCustomDisplaysPosition:(MTMathListDisplay *)displayList
-{
-    _transformDisplayCustoms = [NSMutableArray array];
-    
-    [self transformDisplaysList:displayList parentPosition:displayList.position];
-}
-
-CGPoint CGPointSumPointA(CGPoint pointA, CGPoint pointB)
-{
-    CGPoint sumPoint = CGPointMake(pointA.x + pointB.x, pointA.y + pointB.y);
-    return sumPoint;
-}
-
-- (void)transformDisplaysList:(MTMathListDisplay *)displayList parentPosition:(CGPoint)parentPosition
-{
-    for (MTDisplay* display in displayList.subDisplays) {
-        CGPoint newPosition = CGPointSumPointA(parentPosition, display.position);
-        if ([display isKindOfClass:[MTFractionDisplay class]]) {
-            MTFractionDisplay *fracDisplay = (MTFractionDisplay *)display;
-            [self transformDisplaysList:fracDisplay.numerator parentPosition:newPosition];
-            [self transformDisplaysList:fracDisplay.denominator parentPosition:newPosition];
-        }else if ([display isKindOfClass:[MTRadicalDisplay class]]) {
-            MTRadicalDisplay *radicalDisplay = (MTRadicalDisplay *)display;
-            [self transformDisplaysList:radicalDisplay.radicand parentPosition:newPosition];
-            [self transformDisplaysList:radicalDisplay.degree parentPosition:newPosition];
-        }
-    }
 }
 
 @end
