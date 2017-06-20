@@ -88,7 +88,7 @@
     // Demo formulae
     // Quadratic formula
     //@"x = 1234${fdsafdsa}$\\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}"
-    self.demoLabels[0] = [self createMathLabel:@"x = 4${fdsafdsa}$\\sqrt{b${fdsafdsa}$}4" withHeight:60];
+    self.demoLabels[0] = [self createMathLabel:@"x = 4${fdsafdsa}$4\\sqrt{b${fdsafdsa}$}4" withHeight:60];
     [self addLabelAsSubview:self.demoLabels[0] to:contentView];
     self.demoLabels[0].fontSize = 15;
     // This is first label so set the height from the top
@@ -99,8 +99,8 @@
                                                                                     metrics:nil
                                                                                       views:views]];
 
-
-    self.demoLabels[1] = [self createMathLabel:@"\\color{#ff3399}{(a_1+a_2)^2}=a_1^2+2a_1a_2+a_2^2" withHeight:40];
+    //\\color{#ff3399}{(a_1+a_2)^2}=a_1^2+2a_1a_2+a_2^2
+    self.demoLabels[1] = [self createMathLabel:@"x = 4${fdsafdsa}$" withHeight:40];
 
     self.demoLabels[2] = [self createMathLabel:@"\\cos(\\theta + \\varphi) = \
                                  \\cos(\\theta)\\cos(\\varphi) - \\sin(\\theta)\\sin(\\varphi)"

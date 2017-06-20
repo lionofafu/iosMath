@@ -72,18 +72,20 @@ CGPoint CGPointAddOffsetY(CGPoint point, CGFloat offset)
 {
     for (MTDisplay* display in displayList.subDisplays) {
         CGPoint newPosition = CGPointSumPoint(parentPosition, display.position);
-        newPosition = CGPointAddOffsetY(newPosition, displayList.descent);
         if ([display isKindOfClass:[MTFractionDisplay class]]) {
             MTFractionDisplay *fracDisplay = (MTFractionDisplay *)display;
             [self transformDisplaysList:fracDisplay.numerator parentPosition:newPosition];
             [self transformDisplaysList:fracDisplay.denominator parentPosition:newPosition];
         }else if ([display isKindOfClass:[MTRadicalDisplay class]]) {
             MTRadicalDisplay *radicalDisplay = (MTRadicalDisplay *)display;
+            newPosition = CGPointAddOffsetY(newPosition, displayList.descent);
             newPosition = CGPointSumPoint(newPosition, radicalDisplay.innerOffset);
             [self transformDisplaysList:radicalDisplay.radicand parentPosition:newPosition];
             [self transformDisplaysList:radicalDisplay.degree parentPosition:newPosition];
         }else if ([display isKindOfClass:[MTCustomDisplay class]]) {
             MTCustomDisplay *customDisplay = (MTCustomDisplay *)display;
+            CGFloat descent = displayList.descent - (displayList.ascent + displayList.descent - (display.ascent + display.descent))/2;
+            newPosition = CGPointAddOffsetY(newPosition, descent);
             newPosition = CGPointAddOffsetY(newPosition, display.displayBounds.size.height);
             customDisplay.truePosition = newPosition;
             [self addCustomDisplay:customDisplay];
