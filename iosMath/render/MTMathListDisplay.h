@@ -131,6 +131,8 @@ typedef NS_ENUM(unsigned int, MTLinePosition)  {
  */
 @property (nonatomic, readonly, nullable) MTMathListDisplay* degree;
 
+@property (nonatomic, readonly) CGPoint innerOffset;
+
 @end
 
 /// Rendering a glyph as a display

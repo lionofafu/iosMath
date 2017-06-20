@@ -229,17 +229,23 @@
     }
     
     NSArray *customDisplays = [MTTypesetterHelper collectCustomDisplaysWith:displayList];
-    MTCustomDisplay *display = customDisplays.lastObject;
-    CGRect rect = CGRectMake(display.truePosition.x, display.truePosition.y - display.descent, display.width, display.ascent + display.descent);
-    UIView *test = [[UIView alloc] initWithFrame:rect];
-    test.backgroundColor = [UIColor redColor];
-    [self addSubview:test];
+    [self addCustomDisplay:customDisplays];
     
     self.backgroundColor = [UIColor lightGrayColor];
     
     size.width = displayList.width + self.contentInsets.left + self.contentInsets.right;
     size.height = displayList.ascent + displayList.descent + self.contentInsets.top + self.contentInsets.bottom;
     return size;
+}
+
+- (void)addCustomDisplay:(NSArray<MTCustomDisplay *> *)customDisplays
+{
+    for (MTCustomDisplay *display in customDisplays) {
+        CGRect rect = CGRectMake(display.truePosition.x, display.truePosition.y - display.descent, display.width, display.ascent + display.descent);
+        UIView *test = [[UIView alloc] initWithFrame:rect];
+        test.backgroundColor = [UIColor redColor];
+        [self addSubview:test];
+    }
 }
 
 - (CGSize) intrinsicContentSize

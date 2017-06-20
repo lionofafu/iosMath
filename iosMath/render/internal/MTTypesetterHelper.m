@@ -79,10 +79,12 @@ CGPoint CGPointAddOffsetY(CGPoint point, CGFloat offset)
             [self transformDisplaysList:fracDisplay.denominator parentPosition:newPosition];
         }else if ([display isKindOfClass:[MTRadicalDisplay class]]) {
             MTRadicalDisplay *radicalDisplay = (MTRadicalDisplay *)display;
+            newPosition = CGPointSumPoint(newPosition, radicalDisplay.innerOffset);
             [self transformDisplaysList:radicalDisplay.radicand parentPosition:newPosition];
             [self transformDisplaysList:radicalDisplay.degree parentPosition:newPosition];
         }else if ([display isKindOfClass:[MTCustomDisplay class]]) {
             MTCustomDisplay *customDisplay = (MTCustomDisplay *)display;
+            newPosition = CGPointAddOffsetY(newPosition, display.displayBounds.size.height);
             customDisplay.truePosition = newPosition;
             [self addCustomDisplay:customDisplay];
         }

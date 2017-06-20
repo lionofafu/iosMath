@@ -447,6 +447,14 @@ static BOOL isIos6Supported() {
     CGContextRestoreGState(context);
 }
 
+- (CGPoint)innerOffset
+{
+    MTGlyphDisplay *glyph = (MTGlyphDisplay *)_radicalGlyph;
+    CGFloat offsetX = _radicalShift + glyph.width;
+    CGFloat lineHeight = _topKern + _lineThickness / 2;
+    return CGPointMake(offsetX, -(glyph.descent - glyph.shiftDown - lineHeight));
+}
+
 @end
 
 #pragma mark - MTGlyphDisplay
@@ -791,7 +799,7 @@ static BOOL isIos6Supported() {
     if (self) {
         self.position = position;
         self.range = range;
-        self.width = 80;
+        self.width = 40;
         self.descent = 5;
         self.ascent = 15;
     }

@@ -118,6 +118,4 @@
 
 - (instancetype)init NS_UNAVAILABLE;
 
-@property (nonatomic) CGPoint parentPosition;
-
 @end
