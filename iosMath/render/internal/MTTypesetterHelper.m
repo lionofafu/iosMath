@@ -74,8 +74,11 @@ CGPoint CGPointAddOffsetY(CGPoint point, CGFloat offset)
         CGPoint newPosition = CGPointSumPoint(parentPosition, display.position);
         if ([display isKindOfClass:[MTFractionDisplay class]]) {
             MTFractionDisplay *fracDisplay = (MTFractionDisplay *)display;
-            [self transformDisplaysList:fracDisplay.numerator parentPosition:newPosition];
-            [self transformDisplaysList:fracDisplay.denominator parentPosition:newPosition];
+            CGPoint numeratorPosition = CGPointAddOffsetY(newPosition, 0);
+            numeratorPosition = CGPointSumPoint(numeratorPosition, fracDisplay.numeratorOffset);
+            [self transformDisplaysList:fracDisplay.numerator parentPosition:numeratorPosition];
+            CGPoint denominatorPosition = CGPointSumPoint(newPosition, fracDisplay.denominatorOffset);
+            [self transformDisplaysList:fracDisplay.denominator parentPosition:denominatorPosition];
         }else if ([display isKindOfClass:[MTRadicalDisplay class]]) {
             MTRadicalDisplay *radicalDisplay = (MTRadicalDisplay *)display;
             newPosition = CGPointAddOffsetY(newPosition, displayList.descent);
@@ -84,10 +87,13 @@ CGPoint CGPointAddOffsetY(CGPoint point, CGFloat offset)
             [self transformDisplaysList:radicalDisplay.degree parentPosition:newPosition];
         }else if ([display isKindOfClass:[MTCustomDisplay class]]) {
             MTCustomDisplay *customDisplay = (MTCustomDisplay *)display;
-            CGFloat descent = displayList.descent - (displayList.ascent + displayList.descent - (display.ascent + display.descent))/2;
-            newPosition = CGPointAddOffsetY(newPosition, descent);
-            newPosition = CGPointAddOffsetY(newPosition, display.displayBounds.size.height);
-            customDisplay.truePosition = newPosition;
+            // position需要加descent
+            CGFloat descent = displayList.descent;
+            // position同时考虑与父list的偏移
+            CGFloat parentOffset = ((displayList.ascent + displayList.descent) - (display.ascent + display.descent))/2;
+            // position为左下角坐标，需要加custom高
+            CGFloat customHeight = display.ascent + display.descent;
+            customDisplay.truePosition = CGPointAddOffsetY(newPosition, descent - parentOffset + customHeight);;
             [self addCustomDisplay:customDisplay];
         }
     }

@@ -114,6 +114,12 @@ typedef NS_ENUM(unsigned int, MTLinePosition)  {
  to the parent is not treated as a sub-display.
  */
 @property (nonatomic, readonly) MTMathListDisplay* denominator;
+/** numerator相对frac的offset
+ */
+@property (nonatomic, readonly) CGPoint numeratorOffset;
+/** denominator相对frac的offset
+ */
+@property (nonatomic, readonly) CGPoint denominatorOffset;
 
 @end
 
@@ -130,7 +136,8 @@ typedef NS_ENUM(unsigned int, MTLinePosition)  {
  to the parent is not treated as a sub-display.
  */
 @property (nonatomic, readonly, nullable) MTMathListDisplay* degree;
-
+/** innerList相对Radical的offset
+ */
 @property (nonatomic, readonly) CGPoint innerOffset;
 
 @end

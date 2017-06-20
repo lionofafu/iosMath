@@ -340,6 +340,18 @@ static BOOL isIos6Supported() {
     CGContextRestoreGState(context);
 }
 
+- (CGPoint)numeratorOffset
+{
+    CGPoint offset = _numerator.position;
+    return offset;
+}
+
+- (CGPoint)denominatorOffset
+{
+    CGFloat offsetY = _denominatorDown;
+    return CGPointMake(0, offsetY);
+}
+
 @end
 
 #pragma mark - MTRadicalDisplay
@@ -452,7 +464,8 @@ static BOOL isIos6Supported() {
     MTGlyphDisplay *glyph = (MTGlyphDisplay *)_radicalGlyph;
     CGFloat offsetX = _radicalShift + glyph.width;
     CGFloat lineHeight = _topKern + _lineThickness / 2;
-    return CGPointMake(offsetX, -(glyph.descent - glyph.shiftDown - lineHeight));
+    CGFloat offsetY = -(glyph.descent - glyph.shiftDown - lineHeight);
+    return CGPointMake(offsetX, offsetY);
 }
 
 @end
