@@ -240,6 +240,12 @@
 
 - (void)addCustomDisplay:(NSArray<MTCustomDisplay *> *)customDisplays
 {
+    CGRect rect = CGRectMake(0, 0, 10, 10);
+    UIView *test = [[UIView alloc] initWithFrame:rect];
+    test.backgroundColor = [UIColor redColor];
+    [self addSubview:test];
+    return;
+    
     for (MTCustomDisplay *display in customDisplays) {
         CGRect rect = CGRectMake(display.truePosition.x, display.truePosition.y - display.descent, display.width, display.ascent + display.descent);
         UIView *test = [[UIView alloc] initWithFrame:rect];
