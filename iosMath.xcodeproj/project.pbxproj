@@ -47,7 +47,6 @@
 		49DEC8181CF3C69E000053CD /* texgyretermes-math.otf in Resources */ = {isa = PBXBuildFile; fileRef = 49DEC8121CF3C69E000053CD /* texgyretermes-math.otf */; };
 		49DEC8191CF3C69E000053CD /* latinmodern-math.plist in Resources */ = {isa = PBXBuildFile; fileRef = 49DEC8131CF3C69E000053CD /* latinmodern-math.plist */; };
 		49DEC81A1CF3C69E000053CD /* latinmodern-math.otf in Resources */ = {isa = PBXBuildFile; fileRef = 49DEC8141CF3C69E000053CD /* latinmodern-math.otf */; };
-		49DEC81C1CF3CD72000053CD /* View.xib in Resources */ = {isa = PBXBuildFile; fileRef = 49DEC81B1CF3CD72000053CD /* View.xib */; };
 		49DEC8B71CF77B00000053CD /* MTMathListIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = 49DEC8B51CF77B00000053CD /* MTMathListIndex.m */; };
 		49DEC8B81CF77B00000053CD /* MTMathListIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = 49DEC8B61CF77B00000053CD /* MTMathListIndex.h */; };
 		49EEFD7C1D19B664002D15C4 /* MTTypesetter.h in Headers */ = {isa = PBXBuildFile; fileRef = 49EEFD7A1D19B664002D15C4 /* MTTypesetter.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -128,7 +127,6 @@
 		49DEC8121CF3C69E000053CD /* texgyretermes-math.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "texgyretermes-math.otf"; path = "fonts/texgyretermes-math.otf"; sourceTree = SOURCE_ROOT; };
 		49DEC8131CF3C69E000053CD /* latinmodern-math.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; name = "latinmodern-math.plist"; path = "fonts/latinmodern-math.plist"; sourceTree = SOURCE_ROOT; };
 		49DEC8141CF3C69E000053CD /* latinmodern-math.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "latinmodern-math.otf"; path = "fonts/latinmodern-math.otf"; sourceTree = SOURCE_ROOT; };
-		49DEC81B1CF3CD72000053CD /* View.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = View.xib; sourceTree = "<group>"; };
 		49DEC8B51CF77B00000053CD /* MTMathListIndex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTMathListIndex.m; sourceTree = "<group>"; };
 		49DEC8B61CF77B00000053CD /* MTMathListIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTMathListIndex.h; sourceTree = "<group>"; };
 		49EEFD7A1D19B664002D15C4 /* MTTypesetter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTTypesetter.h; sourceTree = "<group>"; };
@@ -352,7 +350,6 @@
 				49B83EF917CF2AE90014B739 /* AppDelegate.m */,
 				49B83F0617CF2B420014B739 /* ViewController.h */,
 				49B83F0717CF2B420014B739 /* ViewController.m */,
-				49DEC81B1CF3CD72000053CD /* View.xib */,
 			);
 			name = example;
 			sourceTree = "<group>";
@@ -537,7 +534,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				49965F0A17CBBA2700A555C5 /* InfoPlist.strings in Resources */,
-				49DEC81C1CF3CD72000053CD /* View.xib in Resources */,
 				49B83F0317CF2AE90014B739 /* Default-568h@2x.png in Resources */,
 				49B83F0417CF2AE90014B739 /* Default.png in Resources */,
 				49B83F0517CF2AE90014B739 /* Default@2x.png in Resources */,

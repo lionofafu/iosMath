@@ -55,7 +55,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+/*
     // Setup the font picker
     self.pickerDelegate = [[FontPickerDelegate alloc] init];
     self.pickerDelegate.controller = self;
@@ -84,13 +84,20 @@
     [self setEqualWidths:contentView andView:self.scrollView];
     [self setHeight:4280 forView:contentView];
 
-
+*/
     // Demo formulae
     // Quadratic formula
     //@"x = 1234${fdsafdsa}$\\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}"
-    self.demoLabels[0] = [self createMathLabel:@"\\frac{-b${fdsafdsa}$s}{2a}" withHeight:40];
+    
+    MTMathUILabel* label = [[MTMathUILabel alloc] init];
+    label.latex = @"\\frac{-b${fdsafdsa}$s}{2a}";
+    label.fontSize = 15;
+    CGRect frame = CGRectMake(10, 100, [UIScreen mainScreen].bounds.size.width - 20, 40);
+    label.frame = frame;
+    label.backgroundColor = [UIColor lightGrayColor];
+    [self.view addSubview:label];
+    /*
     [self addLabelAsSubview:self.demoLabels[0] to:contentView];
-    self.demoLabels[0].fontSize = 15;
     // This is first label so set the height from the top
     UIView* view = self.demoLabels[0];
     NSDictionary *views = NSDictionaryOfVariableBindings(view);
@@ -99,6 +106,7 @@
                                                                                     metrics:nil
                                                                                       views:views]];
 
+    
     //\\color{#ff3399}{(a_1+a_2)^2}=a_1^2+2a_1a_2+a_2^2
     self.demoLabels[1] = [self createMathLabel:@"x = 4${fdsafdsa}$" withHeight:40];
 
@@ -319,6 +327,7 @@
     for (NSUInteger i = 1; i < self.labels.count; i++) {
         [self addLabelWithIndex:i inArray:self.labels toView:contentView];
     }
+    */
 }
 
 - (void)didReceiveMemoryWarning
@@ -336,10 +345,7 @@
 
 -(MTMathUILabel*) createMathLabel:(NSString*) latex withHeight:(CGFloat) height
 {
-    MTMathUILabel* label = [[MTMathUILabel alloc] init];
-    [self setHeight:height forView:label];
-    label.latex = latex;
-    return label;
+    
 }
 
 #pragma mark Constraints
