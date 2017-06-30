@@ -813,8 +813,8 @@ static BOOL isIos6Supported() {
         self.position = position;
         self.range = range;
         self.width = 40;
-        self.descent = 5;
-        self.ascent = 15;
+        self.descent = 1;
+        self.ascent = 11;
     }
     return self;
 }

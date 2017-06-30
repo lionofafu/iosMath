@@ -87,13 +87,7 @@ CGPoint CGPointAddOffsetY(CGPoint point, CGFloat offset)
             [self transformDisplaysList:radicalDisplay.degree parentPosition:newPosition];
         }else if ([display isKindOfClass:[MTCustomDisplay class]]) {
             MTCustomDisplay *customDisplay = (MTCustomDisplay *)display;
-            // position需要加descent
-            CGFloat descent = displayList.descent;
-            // position同时考虑与父list的偏移
-            CGFloat parentOffset = ((displayList.ascent + displayList.descent) - (display.ascent + display.descent))/2;
-            // position为左下角坐标，需要加custom高
-            CGFloat customHeight = display.ascent + display.descent;
-            customDisplay.truePosition = CGPointAddOffsetY(newPosition, descent - parentOffset + customHeight);;
+            customDisplay.truePosition = newPosition;
             [self addCustomDisplay:customDisplay];
         }
     }
