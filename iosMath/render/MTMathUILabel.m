@@ -212,6 +212,7 @@
     _errorLabel.frame = self.bounds;
     [self setNeedsDisplay];
     
+    /// Author jiangxiaolong
     NSArray *customDisplays = [MTTypesetterHelper collectCustomDisplaysWith:_displayList];
     [self addCustomDisplay:customDisplays];
 }
@@ -236,6 +237,7 @@
     return size;
 }
 
+/// Author jiangxiaolong
 - (void)addCustomDisplay:(NSArray<MTCustomDisplay *> *)customDisplays
 {
     for (MTCustomDisplay *display in customDisplays) {

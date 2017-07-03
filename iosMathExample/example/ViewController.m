@@ -90,7 +90,7 @@
     //@"x = 1234${fdsafdsa}$\\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}"
     
     MTMathUILabel* label = [[MTMathUILabel alloc] init];
-    label.latex =@"\\frac{-b${fdsafdsa}$ssss}{2${fdsafdsa}$a}";//@"\\sqrt{b${fdsafdsa}$c}";// @"1234${fdsafdsa}$a";
+    label.latex =@"\\frac{-12345${fdsafdsa}$67890}{qwertuiopasdfghjklzxcvbnm}";//@"\\sqrt{b${fdsafdsa}$c}";// @"1234${fdsafdsa}$a";
     label.fontSize = 20;
     CGRect frame = CGRectMake(10, 100, [UIScreen mainScreen].bounds.size.width - 20, 40);
     label.frame = frame;
@@ -101,7 +101,7 @@
     label.font = [[MTFontManager fontManager] termesFontWithSize:label.font.fontSize];
     
     MTMathUILabel* label2 = [[MTMathUILabel alloc] init];
-    label2.latex =@"\\frac{-b${fdsafdsa}$ssss}{2${fdsafdsa}$a}";//@"\\sqrt{b${fdsafdsa}$c}";// @"1234${fdsafdsa}$a";
+    label2.latex =@"\\frac{-12345${fdsafdsa}$67890}{qwertuiopasdfghjklzxcvbnm}";//@"\\sqrt{b${fdsafdsa}$c}";// @"1234${fdsafdsa}$a";
     label2.fontSize = 20;
     CGRect frame2 = CGRectMake(10, 200, [UIScreen mainScreen].bounds.size.width - 20, 40);
     label2.frame = frame2;
@@ -112,7 +112,7 @@
     label2.font = [[MTFontManager fontManager] latinModernFontWithSize:label.font.fontSize];
     
     MTMathUILabel* label3 = [[MTMathUILabel alloc] init];
-    label3.latex =@"\\frac{-b${fdsafdsa}$ssss}{2${fdsafdsa}$a}";//@"\\sqrt{b${fdsafdsa}$c}";// @"1234${fdsafdsa}$a";
+    label3.latex =@"\\frac{-12345${fdsafdsa}$67890}{qwertuiopasdfghjklzxcvbnm}";//@"\\sqrt{b${fdsafdsa}$c}";// @"1234${fdsafdsa}$a";
     label3.fontSize = 20;
     CGRect frame3 = CGRectMake(10, 300, [UIScreen mainScreen].bounds.size.width - 20, 40);
     label3.frame = frame3;

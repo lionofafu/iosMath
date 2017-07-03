@@ -170,7 +170,8 @@ static BOOL isIos6Supported() {
     NSUInteger _index;
 }
 
-- (instancetype) initWithDisplays:(NSArray<MTDisplay*>*) displays range:(NSRange)range
+
+- (instancetype) initWithDisplays:(NSArray<MTDisplay*>*) displays range:(NSRange) range
 {
     self = [super init];
     if (self) {
@@ -340,12 +341,14 @@ static BOOL isIos6Supported() {
     CGContextRestoreGState(context);
 }
 
+/// Author jiangxiaolong
 - (CGPoint)numeratorOffset
 {
     CGPoint offset = _numerator.position;
     return offset;
 }
 
+/// Author jiangxiaolong
 - (CGPoint)denominatorOffset
 {
     CGPoint offset = _denominator.position;
@@ -459,6 +462,7 @@ static BOOL isIos6Supported() {
     CGContextRestoreGState(context);
 }
 
+/// Author jiangxiaolong
 - (CGPoint)innerOffset
 {
     MTGlyphDisplay *glyph = (MTGlyphDisplay *)_radicalGlyph;
@@ -800,6 +804,7 @@ static BOOL isIos6Supported() {
 }
 @end
 
+/// Author jiangxiaolong
 #pragma mark - MTCustomDisplay
 
 @implementation MTCustomDisplay

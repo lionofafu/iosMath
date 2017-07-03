@@ -112,6 +112,7 @@
 
 @end
 
+/// Author jiangxiaolong
 @interface MTCustomDisplay ()
 
 - (instancetype)initWithCustomAtom:(MTMathCustom*) customAtom position:(CGPoint)position range:(NSRange) range NS_DESIGNATED_INITIALIZER;

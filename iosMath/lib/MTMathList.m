@@ -10,6 +10,7 @@
 //
 
 #import "MTMathList.h"
+/// Author jiangxiaolong
 #import "MTCustomUtil.h"
 
 // Returns true if the current binary operator is not really binary.
@@ -71,6 +72,7 @@ static NSString* typeToText(MTMathAtomType type) {
             return @"Color";
         case kMTMathAtomTable:
             return @"Table";
+        ///Author jiangxiaolong
         case kMTMathAtomCustom:
             return @"Custom";
     }
@@ -124,7 +126,8 @@ static NSString* typeToText(MTMathAtomType type) {
         
         case kMTMathAtomColor:
             return [[MTMathColor alloc] init];
-            
+        
+        /// Author jiangxiaolong
         case kMTMathAtomCustom:
             return [[MTMathCustom alloc] initWithValue:value];
             
@@ -631,6 +634,7 @@ static NSString* typeToText(MTMathAtomType type) {
 
 @end
 
+/// Author jiangxiaolong
 #pragma mark - MTMathCustom
 
 @implementation MTMathCustom

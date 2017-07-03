@@ -115,9 +115,11 @@ typedef NS_ENUM(unsigned int, MTLinePosition)  {
  */
 @property (nonatomic, readonly) MTMathListDisplay* denominator;
 /** numerator相对frac的offset
+ * Author jiangxiaolong
  */
 @property (nonatomic, readonly) CGPoint numeratorOffset;
 /** denominator相对frac的offset
+ * Author jiangxiaolong
  */
 @property (nonatomic, readonly) CGPoint denominatorOffset;
 
@@ -137,6 +139,7 @@ typedef NS_ENUM(unsigned int, MTLinePosition)  {
  */
 @property (nonatomic, readonly, nullable) MTMathListDisplay* degree;
 /** innerList相对Radical的offset
+ * Author jiangxiaolong
  */
 @property (nonatomic, readonly) CGPoint innerOffset;
 
@@ -194,11 +197,13 @@ typedef NS_ENUM(unsigned int, MTLinePosition)  {
 @end
 
 /// 渲染一块占位区域用来显示customview
+/// Author jiangxiaolong
 @interface MTCustomDisplay : MTDisplay
 
 - (instancetype)init NS_UNAVAILABLE;
 
 /** 相对于最外层的position
+ * Author jiangxiaolong
  */
 @property (nonatomic) CGPoint truePosition;
 
