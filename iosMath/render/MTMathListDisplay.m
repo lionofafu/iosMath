@@ -348,8 +348,8 @@ static BOOL isIos6Supported() {
 
 - (CGPoint)denominatorOffset
 {
-    CGFloat offsetY = _denominatorDown;
-    return CGPointMake(0, offsetY);
+    CGPoint offset = _denominator.position;
+    return offset;
 }
 
 @end
@@ -463,9 +463,7 @@ static BOOL isIos6Supported() {
 {
     MTGlyphDisplay *glyph = (MTGlyphDisplay *)_radicalGlyph;
     CGFloat offsetX = _radicalShift + glyph.width;
-    CGFloat lineHeight = _topKern + _lineThickness / 2;
-    CGFloat offsetY = -(glyph.descent - glyph.shiftDown - lineHeight);
-    return CGPointMake(offsetX, offsetY);
+    return CGPointMake(offsetX, 0);
 }
 
 @end
@@ -813,8 +811,8 @@ static BOOL isIos6Supported() {
         self.position = position;
         self.range = range;
         self.width = 40;
-        self.descent = 1;
-        self.ascent = 11;
+        self.descent = 5;
+        self.ascent = 15;
     }
     return self;
 }
