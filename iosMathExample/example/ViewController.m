@@ -95,7 +95,33 @@
     CGRect frame = CGRectMake(10, 100, [UIScreen mainScreen].bounds.size.width - 20, 40);
     label.frame = frame;
     label.backgroundColor = [UIColor lightGrayColor];
+    [label sizeToFit];
     [self.view addSubview:label];
+
+    label.font = [[MTFontManager fontManager] termesFontWithSize:label.font.fontSize];
+    
+    MTMathUILabel* label2 = [[MTMathUILabel alloc] init];
+    label2.latex =@"\\frac{-b${fdsafdsa}$ssss}{2${fdsafdsa}$a}";//@"\\sqrt{b${fdsafdsa}$c}";// @"1234${fdsafdsa}$a";
+    label2.fontSize = 20;
+    CGRect frame2 = CGRectMake(10, 200, [UIScreen mainScreen].bounds.size.width - 20, 40);
+    label2.frame = frame2;
+    label2.backgroundColor = [UIColor lightGrayColor];
+    [label2 sizeToFit];
+    [self.view addSubview:label2];
+    
+    label2.font = [[MTFontManager fontManager] latinModernFontWithSize:label.font.fontSize];
+    
+    MTMathUILabel* label3 = [[MTMathUILabel alloc] init];
+    label3.latex =@"\\frac{-b${fdsafdsa}$ssss}{2${fdsafdsa}$a}";//@"\\sqrt{b${fdsafdsa}$c}";// @"1234${fdsafdsa}$a";
+    label3.fontSize = 20;
+    CGRect frame3 = CGRectMake(10, 300, [UIScreen mainScreen].bounds.size.width - 20, 40);
+    label3.frame = frame3;
+    label3.backgroundColor = [UIColor lightGrayColor];
+    [label3 sizeToFit];
+    [self.view addSubview:label3];
+    
+    label3.font = [[MTFontManager fontManager] xitsFontWithSize:label.font.fontSize];
+    
     /*
     [self addLabelAsSubview:self.demoLabels[0] to:contentView];
     // This is first label so set the height from the top

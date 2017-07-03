@@ -237,7 +237,7 @@
 }
 
 - (void)addCustomDisplay:(NSArray<MTCustomDisplay *> *)customDisplays
-{    
+{
     for (MTCustomDisplay *display in customDisplays) {
         CGRect rect = CGRectMake(display.truePosition.x, display.truePosition.y - display.descent, display.width, display.ascent + display.descent);
         UIView *test = [[UIView alloc] initWithFrame:rect];
