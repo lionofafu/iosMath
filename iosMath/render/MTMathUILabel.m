@@ -212,9 +212,10 @@
     _errorLabel.frame = self.bounds;
     [self setNeedsDisplay];
     
-    /// Author jiangxiaolong
+    /// Modify by jiangxiaolong
     NSArray *customDisplays = [MTTypesetterHelper collectCustomDisplaysWith:_displayList];
     [self addCustomDisplay:customDisplays];
+    /// Modify end
 }
 
 #if !TARGET_OS_IPHONE
@@ -237,7 +238,7 @@
     return size;
 }
 
-/// Author jiangxiaolong
+/// Modify by jiangxiaolong
 - (void)addCustomDisplay:(NSArray<MTCustomDisplay *> *)customDisplays
 {
     for (MTCustomDisplay *display in customDisplays) {
@@ -247,6 +248,7 @@
         [self addSubview:test];
     }
 }
+/// Modify end
 
 - (CGSize) intrinsicContentSize
 {

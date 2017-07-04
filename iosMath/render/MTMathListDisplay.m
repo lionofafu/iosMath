@@ -341,19 +341,20 @@ static BOOL isIos6Supported() {
     CGContextRestoreGState(context);
 }
 
-/// Author jiangxiaolong
+/// Modify by jiangxiaolong
 - (CGPoint)numeratorOffset
 {
     CGPoint offset = _numerator.position;
     return offset;
 }
 
-/// Author jiangxiaolong
 - (CGPoint)denominatorOffset
 {
     CGPoint offset = _denominator.position;
     return offset;
 }
+
+/// Modify end
 
 @end
 
@@ -462,13 +463,15 @@ static BOOL isIos6Supported() {
     CGContextRestoreGState(context);
 }
 
-/// Author jiangxiaolong
+/// Modify by jiangxiaolong
 - (CGPoint)innerOffset
 {
     MTGlyphDisplay *glyph = (MTGlyphDisplay *)_radicalGlyph;
     CGFloat offsetX = _radicalShift + glyph.width;
     return CGPointMake(offsetX, 0);
 }
+
+/// Modify end
 
 @end
 
@@ -804,7 +807,7 @@ static BOOL isIos6Supported() {
 }
 @end
 
-/// Author jiangxiaolong
+/// Modify by jiangxiaolong
 #pragma mark - MTCustomDisplay
 
 @implementation MTCustomDisplay
@@ -836,3 +839,5 @@ static BOOL isIos6Supported() {
 }
 
 @end
+
+/// Modify end

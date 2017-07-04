@@ -11,8 +11,9 @@
 @import Foundation;
 
 #import "MTMathListDisplay.h"
-/// Author jiangxiaolong
+/// Modify by jiangxiaolong
 #import "MTTypesetterHelper.h"
+/// Modify end
 
 NS_ASSUME_NONNULL_BEGIN
 

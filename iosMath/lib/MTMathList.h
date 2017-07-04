@@ -82,8 +82,9 @@ typedef NS_ENUM(NSUInteger, MTMathAtomType)
     kMTMathAtomTable = 1001,
     
     // 自定义字符串Atom
-    /// Author jiangxiaolong
+    /// Modify by jiangxiaolong
     kMTMathAtomCustom = 10001,
+    /// Modify end
 };
 
 /**
@@ -297,7 +298,7 @@ typedef NS_ENUM(NSUInteger, MTFontStyle)
 @end
 
 /** 一个处理自定义字符串的atom
- *  Author jiangxiaolong
+ *  Modify by jiangxiaolong
  */
 @interface MTMathCustom : MTMathAtom
 
@@ -310,7 +311,6 @@ typedef NS_ENUM(NSUInteger, MTFontStyle)
 @property (nonatomic, nullable) NSString* customString;
 
 @end
-
 
 /**
  @typedef MTLineStyle

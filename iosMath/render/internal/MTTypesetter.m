@@ -50,9 +50,10 @@ NSUInteger getInterElementSpaceArrayIndexForType(MTMathAtomType type, BOOL row) 
         case kMTMathAtomColor:
         case kMTMathAtomOrdinary:
         case kMTMathAtomPlaceholder:   // A placeholder is treated as ordinary
+        /// Modify by jiangxiaolong
         case kMTMathAtomCustom:        // 自定义和普通字符处理一致
-            /// Author jiangxiaolong
             return 0;
+        /// Modify end
         case kMTMathAtomLargeOperator:
             return 1;
         case kMTMathAtomBinaryOperator:
@@ -457,9 +458,10 @@ static void getBboxDetails(CGRect bbox, CGFloat* ascent, CGFloat* descent)
 {
     MTMathList* finalizedList = mathList.finalized;
     // default is not cramped
-    /// Author jiangxiaolong
+    /// Modify by jiangxiaolong
     MTMathListDisplay *lineForMathList = [self createLineForMathList:finalizedList font:font style:style cramped:false];
     return lineForMathList;
+    /// Modify end
 }
 
 // Internal
@@ -625,7 +627,7 @@ static void getBboxDetails(CGRect bbox, CGFloat* ascent, CGFloat* descent)
                     [self addDisplayLine];
                 }
                 MTMathColor* colorAtom = (MTMathColor*) atom;
-                /// Author jiangxiaolong
+                /// Modify by jiangxiaolong
                 MTDisplay* display = [MTTypesetter createLineForMathList:colorAtom.innerList font:_font style:_style cramped:false];
                 display.localTextColor = [MTColor colorFromHexString:colorAtom.colorString];
                 display.position = _currentPosition;
@@ -645,7 +647,7 @@ static void getBboxDetails(CGRect bbox, CGFloat* ascent, CGFloat* descent)
                 MTRadicalDisplay* displayRad = [self makeRadical:rad.radicand range:rad.indexRange];
                 if (rad.degree) {
                     // add the degree to the radical
-                    /// Author jiangxiaolong
+                    /// Modify by jiangxiaolong
                     MTMathListDisplay* degree = [MTTypesetter createLineForMathList:rad.degree font:_font style:kMTLineStyleScriptScript cramped:false];
                     [displayRad setDegree:degree fontMetrics:_styleFont.mathTable];
                 }
@@ -855,8 +857,8 @@ static void getBboxDetails(CGRect bbox, CGFloat* ascent, CGFloat* descent)
                 }
                 break;
             }
+            /// Modify by jiangxiaolong
             case kMTMathAtomCustom: {
-                /// Author jiangxiaolong
                 // stash the existing layout
                 if (_currentLine.length > 0) {
                     [self addDisplayLine];
@@ -875,6 +877,7 @@ static void getBboxDetails(CGRect bbox, CGFloat* ascent, CGFloat* descent)
                 }
                 break;
             }
+            /// Modify end
         }
         lastType = atom.type;
         prevNode = atom;
@@ -1868,7 +1871,7 @@ static const CGFloat kJotMultiplier = 0.3; // A jot is 3pt for a 10pt font.
     }
 }
 
-/// Author jiangxiaolong
+/// Modify by jiangxiaolong
 #pragma mark - Custom
 - (MTDisplay*) makeCustomDisplay:(MTMathCustom*) custom
 {
@@ -1880,3 +1883,5 @@ static const CGFloat kJotMultiplier = 0.3; // A jot is 3pt for a 10pt font.
 }
 
 @end
+
+/// Modify end
