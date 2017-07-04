@@ -11,8 +11,8 @@
 static const char CustomStartChar = 0x1e;//\u00c1
 static const char CustomEndChar = 0x1f;//\u00c2
 
-static const NSString *OriginStartString = @"${";
-static const NSString *OriginEndString = @"}$";
+static const NSString *OriginStartString = @"#{";
+static const NSString *OriginEndString = @"}#";
 
 @interface MTCustomUtil : NSObject
 

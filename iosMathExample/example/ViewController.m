@@ -87,10 +87,10 @@
 */
     // Demo formulae
     // Quadratic formula
-    //@"x = 1234${fdsafdsa}$\\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}"
+    //@"x = 1234#{fdsafdsa}#\\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}"
     
     MTMathUILabel* label = [[MTMathUILabel alloc] init];
-    label.latex = @"r${fdsafdsa}$r_{2${fdsafdsa}$2}";//@"0.1\\dot{1a${dsa}$a2}";//@"\\sqrt{b${fdsafdsa}$c}";// @"1234${fdsafdsa}$a";
+    label.latex = @"r#{fdsafdsa}#r_{2#{fdsafdsa}#2}";//@"0.1\\dot{1a#{dsa}#a2}";//@"\\sqrt{b#{fdsafdsa}#c}";// @"1234#{fdsafdsa}#a";
     label.fontSize = 20;
     CGRect frame = CGRectMake(10, 100, [UIScreen mainScreen].bounds.size.width - 20, 40);
     label.frame = frame;
@@ -101,7 +101,7 @@
     label.font = [[MTFontManager fontManager] termesFontWithSize:label.font.fontSize];
     
     MTMathUILabel* label2 = [[MTMathUILabel alloc] init];
-    label2.latex =@"\\frac{-12345${fdsafdsa}$67890}{qwertuiopasdfghjklzxcvbnm}";//@"\\sqrt{b${fdsafdsa}$c}";// @"1234${fdsafdsa}$a";
+    label2.latex =@"\\frac{-12345#{fdsafdsa}#67890}{qwertuiopasdfghjklzxcvbnm}";//@"\\sqrt{b#{fdsafdsa}#c}";// @"1234#{fdsafdsa}#a";
     label2.fontSize = 20;
     CGRect frame2 = CGRectMake(10, 200, [UIScreen mainScreen].bounds.size.width - 20, 40);
     label2.frame = frame2;
@@ -112,7 +112,7 @@
     label2.font = [[MTFontManager fontManager] latinModernFontWithSize:label.font.fontSize];
     
     MTMathUILabel* label3 = [[MTMathUILabel alloc] init];
-    label3.latex =@"\\frac{-12345${fdsafdsa}$67890}{qwertuiopasdfghjklzxcvbnm}";//@"\\sqrt{b${fdsafdsa}$c}";// @"1234${fdsafdsa}$a";
+    label3.latex =@"\\frac{-12345#{fdsafdsa}#67890}{qwertuiopasdfghjklzxcvbnm}";//@"\\sqrt{b#{fdsafdsa}#c}";// @"1234#{fdsafdsa}#a";
     label3.fontSize = 20;
     CGRect frame3 = CGRectMake(10, 300, [UIScreen mainScreen].bounds.size.width - 20, 40);
     label3.frame = frame3;
@@ -134,7 +134,7 @@
 
     
     //\\color{#ff3399}{(a_1+a_2)^2}=a_1^2+2a_1a_2+a_2^2
-    self.demoLabels[1] = [self createMathLabel:@"x = 4${fdsafdsa}$" withHeight:40];
+    self.demoLabels[1] = [self createMathLabel:@"x = 4#{fdsafdsa}#" withHeight:40];
 
     self.demoLabels[2] = [self createMathLabel:@"\\cos(\\theta + \\varphi) = \
                                  \\cos(\\theta)\\cos(\\varphi) - \\sin(\\theta)\\sin(\\varphi)"
