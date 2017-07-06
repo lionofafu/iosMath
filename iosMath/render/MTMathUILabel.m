@@ -80,7 +80,6 @@
 {
     NSParameterAssert(font);
     _font = font;
-    [self invalidateIntrinsicContentSize];
     [self setNeedsLayout];
 }
 
@@ -94,7 +93,6 @@
 - (void)setContentInsets:(MTEdgeInsets)contentInsets
 {
     _contentInsets = contentInsets;
-    [self invalidateIntrinsicContentSize];
     [self setNeedsLayout];
 }
 
@@ -103,7 +101,6 @@
     _mathList = mathList;
     _error = nil;
     _latex = [MTMathListBuilder mathListToString:mathList];
-    [self invalidateIntrinsicContentSize];
     [self setNeedsLayout];
 }
 
@@ -113,6 +110,7 @@
     _error = nil;
     NSError* error = nil;
     _mathList = [MTMathListBuilder buildFromString:latex error:&error];
+    
     if (error) {
         _mathList = nil;
         _error = error;
@@ -121,15 +119,23 @@
         _errorLabel.hidden = !self.displayErrorInline;
     } else {
         _errorLabel.hidden = YES;
+        /// Modify by jiangxiaolong
+        if (_mathList) {
+            _displayList = [MTTypesetter createLineForMathList:_mathList font:_font style:self.currentStyle];
+            _displayList.textColor = _textColor;
+            [self calculateDisplayListPosition];
+            _customDisplays = [MTTypesetterHelper collectCustomDisplaysWith:_displayList];
+        } else {
+            _displayList = nil;
+        }
+        /// Modify end
     }
-    [self invalidateIntrinsicContentSize];
     [self setNeedsLayout];
 }
 
 - (void)setLabelMode:(MTMathUILabelMode)labelMode
 {
     _labelMode = labelMode;
-    [self invalidateIntrinsicContentSize];
     [self setNeedsLayout];
 }
 
@@ -144,7 +150,6 @@
 - (void)setTextAlignment:(MTTextAlignment)textAlignment
 {
     _textAlignment = textAlignment;
-    [self invalidateIntrinsicContentSize];
     [self setNeedsLayout];
 }
 
@@ -179,42 +184,12 @@
 
 - (void) layoutSubviews
 {
-    if (_mathList) {
-        _displayList = [MTTypesetter createLineForMathList:_mathList font:_font style:self.currentStyle];
-        _displayList.textColor = _textColor;
-        
-        // Determine x position based on alignment
-        CGFloat textX = 0;
-        switch (self.textAlignment) {
-            case kMTTextAlignmentLeft:
-                textX = self.contentInsets.left;
-                break;
-            case kMTTextAlignmentCenter:
-                textX = (self.bounds.size.width - self.contentInsets.left - self.contentInsets.right - _displayList.width) / 2 + self.contentInsets.left;
-                break;
-            case kMTTextAlignmentRight:
-                textX = (self.bounds.size.width - _displayList.width - self.contentInsets.right);
-                break;
-        }
-        
-        CGFloat availableHeight = self.bounds.size.height - self.contentInsets.bottom - self.contentInsets.top;
-        // center things vertically
-        CGFloat height = _displayList.ascent + _displayList.descent;
-        if (height < _fontSize/2) {
-            // Set the height to the half the size of the font
-            height = _fontSize/2;
-        }
-        CGFloat textY = (availableHeight - height) / 2 + _displayList.descent + self.contentInsets.bottom;
-        _displayList.position = CGPointMake(textX, textY);
-    } else {
-        _displayList = nil;
-    }
+    /// Modify by jiangxiaolong
+    // Determine x position based on alignment
     _errorLabel.frame = self.bounds;
     [self setNeedsDisplay];
+    [self addCustomDisplay:self.customDisplays];
     
-    /// Modify by jiangxiaolong
-    NSArray *customDisplays = [MTTypesetterHelper collectCustomDisplaysWith:_displayList];
-    [self addCustomDisplay:customDisplays];
     /// Modify end
 }
 
@@ -228,17 +203,48 @@
 
 - (CGSize) sizeThatFits:(CGSize)size
 {
-    MTMathListDisplay* displayList = nil;
-    if (_mathList) {
-        displayList = [MTTypesetter createLineForMathList:_mathList font:_font style:self.currentStyle];
-    }
-    
-    size.width = displayList.width + self.contentInsets.left + self.contentInsets.right;
-    size.height = displayList.ascent + displayList.descent + self.contentInsets.top + self.contentInsets.bottom;
+    size.width = self.displayList.width + self.contentInsets.left + self.contentInsets.right;
+    size.height = self.displayList.ascent + self.displayList.descent + self.contentInsets.top + self.contentInsets.bottom;
     return size;
 }
 
+- (CGSize) intrinsicContentSize
+{
+    return [self sizeThatFits:CGSizeZero];
+}
+
 /// Modify by jiangxiaolong
+- (void)calculateDisplayListPosition
+{
+    CGSize size;
+    size.width = self.displayList.width + self.contentInsets.left + self.contentInsets.right;
+    size.height = self.displayList.ascent + self.displayList.descent + self.contentInsets.top + self.contentInsets.bottom;
+    self.bounds = CGRectMake(0, 0, size.width, size.height);
+    
+    CGFloat textX = 0;
+    switch (self.textAlignment) {
+        case kMTTextAlignmentLeft:
+            textX = self.contentInsets.left;
+            break;
+        case kMTTextAlignmentCenter:
+            textX = (self.bounds.size.width - self.contentInsets.left - self.contentInsets.right - _displayList.width) / 2 + self.contentInsets.left;
+            break;
+        case kMTTextAlignmentRight:
+            textX = (self.bounds.size.width - _displayList.width - self.contentInsets.right);
+            break;
+    }
+    
+    CGFloat availableHeight = self.bounds.size.height - self.contentInsets.bottom - self.contentInsets.top;
+    // center things vertically
+    CGFloat height = _displayList.ascent + _displayList.descent;
+    if (height < _fontSize/2) {
+        // Set the height to the half the size of the font
+        height = _fontSize/2;
+    }
+    CGFloat textY = (availableHeight - height) / 2 + _displayList.descent + self.contentInsets.bottom;
+    _displayList.position = CGPointMake(textX, textY);
+}
+
 - (void)addCustomDisplay:(NSArray<MTCustomDisplay *> *)customDisplays
 {
     for (MTCustomDisplay *display in customDisplays) {
@@ -249,10 +255,5 @@
     }
 }
 /// Modify end
-
-- (CGSize) intrinsicContentSize
-{
-    return [self sizeThatFits:CGSizeZero];
-}
 
 @end

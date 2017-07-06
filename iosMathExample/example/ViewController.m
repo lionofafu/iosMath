@@ -95,7 +95,8 @@
     CGRect frame = CGRectMake(10, 100, [UIScreen mainScreen].bounds.size.width - 20, 40);
     label.frame = frame;
     label.backgroundColor = [UIColor lightGrayColor];
-    [label sizeToFit];
+    [label setNeedsLayout];
+//    [label sizeToFit];
     [self.view addSubview:label];
 
     label.font = [[MTFontManager fontManager] termesFontWithSize:label.font.fontSize];
