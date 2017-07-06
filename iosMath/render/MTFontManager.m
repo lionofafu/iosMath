@@ -71,7 +71,7 @@ const int kDefaultFontSize = 20;
 
 - (MTFont *)defaultFont
 {
-    return [self latinModernFontWithSize:kDefaultFontSize];
+    return [self termesFontWithSize:kDefaultFontSize];
 }
 
 @end
