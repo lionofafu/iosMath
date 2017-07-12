@@ -71,25 +71,29 @@ CGPoint CGPointAddOffsetY(CGPoint point, CGFloat offset)
 + (void)transformDisplaysList:(MTMathListDisplay *)displayList parentPosition:(CGPoint)parentPosition
 {
     for (MTDisplay* display in displayList.subDisplays) {
-        CGPoint newPosition = CGPointSumPoint(parentPosition, display.position);
+        CGPoint newPosition = parentPosition;
         if ([display isKindOfClass:[MTFractionDisplay class]]) {
             MTFractionDisplay *fracDisplay = (MTFractionDisplay *)display;
-            CGPoint numeratorPosition = CGPointAddOffsetY(newPosition, fracDisplay.numeratorOffset.y);
+            CGPoint numeratorPosition = CGPointSumPoint(newPosition, fracDisplay.numeratorOffset);
             [self transformDisplaysList:fracDisplay.numerator parentPosition:numeratorPosition];
-            CGPoint denominatorPosition = CGPointAddOffsetY(newPosition, fracDisplay.denominatorOffset.y);
+            CGPoint denominatorPosition = CGPointSumPoint(newPosition, fracDisplay.denominatorOffset);
             [self transformDisplaysList:fracDisplay.denominator parentPosition:denominatorPosition];
         }else if ([display isKindOfClass:[MTRadicalDisplay class]]) {
             MTRadicalDisplay *radicalDisplay = (MTRadicalDisplay *)display;
+            newPosition = CGPointSumPoint(newPosition, display.position);
             newPosition = CGPointSumPoint(newPosition, radicalDisplay.innerOffset);
             [self transformDisplaysList:radicalDisplay.radicand parentPosition:newPosition];
             [self transformDisplaysList:radicalDisplay.degree parentPosition:newPosition];
         }else if ([display isKindOfClass:[MTAccentDisplay class]]) {
+            newPosition = CGPointSumPoint(newPosition, display.position);
             MTAccentDisplay *accentDisplay = (MTAccentDisplay *)display;
             [self transformDisplaysList:accentDisplay.accentee parentPosition:newPosition];
         }else if ([display isKindOfClass:[MTMathListDisplay class]]) {
+            newPosition = CGPointSumPoint(newPosition, display.position);
             MTMathListDisplay *displayList = (MTMathListDisplay *)display;
             [self transformDisplaysList:displayList parentPosition:newPosition];
         }else if ([display isKindOfClass:[MTCustomDisplay class]]) {
+            newPosition = CGPointSumPoint(newPosition, display.position);
             MTCustomDisplay *customDisplay = (MTCustomDisplay *)display;
             customDisplay.truePosition = newPosition;
             [self addCustomDisplay:customDisplay];

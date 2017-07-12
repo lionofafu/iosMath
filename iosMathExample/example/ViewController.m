@@ -90,7 +90,7 @@
     //@"x = 1234#{fdsafdsa}#\\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}"
     
     MTMathUILabel* label = [[MTMathUILabel alloc] init];
-    label.latex = @"8+#{fdsafdsa}#\\frac{1#{fdsafdsa}#1}{23456}";//@"r#{fdsafdsa}#r_{2#{fdsafdsa}#2}";//@"0.1\\dot{1a#{dsa}#a2}";//@"\\sqrt{b#{fdsafdsa}#c}";// @"1234#{fdsafdsa}#a";
+    label.latex = @"a8\\pi+\\frac{1#{fdsafdsa}#}{#{fdsafdsa}#}+\\sqrt{b#{fdsafdsa}#c} + r#{fdsafdsa}#r_{2#{fdsafdsa}#2}";//@"r#{fdsafdsa}#r_{2#{fdsafdsa}#2}";//@"0.1\\dot{1a#{dsa}#a2}";//@"\\sqrt{b#{fdsafdsa}#c}";// @"1234#{fdsafdsa}#a";
     label.fontSize = 20;
     CGRect frame = CGRectMake(10, 100, [UIScreen mainScreen].bounds.size.width - 20, 40);
     label.frame = frame;
