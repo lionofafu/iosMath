@@ -90,7 +90,7 @@
     //@"x = 1234#{fdsafdsa}#\\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}"
     
     MTMathUILabel* label = [[MTMathUILabel alloc] init];
-    label.latex = @"r#{fdsafdsa}#r_{2#{fdsafdsa}#2}";//@"0.1\\dot{1a#{dsa}#a2}";//@"\\sqrt{b#{fdsafdsa}#c}";// @"1234#{fdsafdsa}#a";
+    label.latex = @"8+#{fdsafdsa}#\\frac{1#{fdsafdsa}#1}{23456}";//@"r#{fdsafdsa}#r_{2#{fdsafdsa}#2}";//@"0.1\\dot{1a#{dsa}#a2}";//@"\\sqrt{b#{fdsafdsa}#c}";// @"1234#{fdsafdsa}#a";
     label.fontSize = 20;
     CGRect frame = CGRectMake(10, 100, [UIScreen mainScreen].bounds.size.width - 20, 40);
     label.frame = frame;
@@ -100,9 +100,9 @@
     [self.view addSubview:label];
 
     label.font = [[MTFontManager fontManager] termesFontWithSize:label.font.fontSize];
-    
+    /*
     MTMathUILabel* label2 = [[MTMathUILabel alloc] init];
-    label2.latex =@"\\frac{-12345#{fdsafdsa}#67890}{qwertuiopasdfghjklzxcvbnm}";//@"\\sqrt{b#{fdsafdsa}#c}";// @"1234#{fdsafdsa}#a";
+    label2.latex =@"\\dot{8}+\\frac{-12345#{fdsafdsa}#67890}{qwertuiopasdfghjklzxcvbnm}";//@"\\sqrt{b#{fdsafdsa}#c}";// @"1234#{fdsafdsa}#a";
     label2.fontSize = 20;
     CGRect frame2 = CGRectMake(10, 200, [UIScreen mainScreen].bounds.size.width - 20, 40);
     label2.frame = frame2;
@@ -122,7 +122,7 @@
     [self.view addSubview:label3];
     
     label3.font = [[MTFontManager fontManager] xitsFontWithSize:label.font.fontSize];
-    
+    */
     /*
     [self addLabelAsSubview:self.demoLabels[0] to:contentView];
     // This is first label so set the height from the top

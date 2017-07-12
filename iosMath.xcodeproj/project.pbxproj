@@ -503,7 +503,7 @@
 				LastUpgradeCheck = 0820;
 				TargetAttributes = {
 					49965EFB17CBBA2700A555C5 = {
-						DevelopmentTeam = H943X5Q87C;
+						DevelopmentTeam = ZXKY75PL3W;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -841,10 +841,10 @@
 			baseConfigurationReference = D93290960585498BBAEE4535 /* Pods-iosMathExample.debug.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = H943X5Q87C;
+				DEVELOPMENT_TEAM = ZXKY75PL3W;
 				INFOPLIST_FILE = "iosMathExample/iosMath-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.knowin.RapidCalculation;
+				PRODUCT_BUNDLE_IDENTIFIER = com.appKnowin.RapidCalculation;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -857,10 +857,10 @@
 			baseConfigurationReference = B16B9A63054AE3FFB5C36F6B /* Pods-iosMathExample.release.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = H943X5Q87C;
+				DEVELOPMENT_TEAM = ZXKY75PL3W;
 				INFOPLIST_FILE = "iosMathExample/iosMath-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.knowin.RapidCalculation;
+				PRODUCT_BUNDLE_IDENTIFIER = com.appKnowin.RapidCalculation;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";

@@ -74,9 +74,9 @@ CGPoint CGPointAddOffsetY(CGPoint point, CGFloat offset)
         CGPoint newPosition = CGPointSumPoint(parentPosition, display.position);
         if ([display isKindOfClass:[MTFractionDisplay class]]) {
             MTFractionDisplay *fracDisplay = (MTFractionDisplay *)display;
-            CGPoint numeratorPosition = CGPointSumPoint(newPosition, fracDisplay.numeratorOffset);
+            CGPoint numeratorPosition = CGPointAddOffsetY(newPosition, fracDisplay.numeratorOffset.y);
             [self transformDisplaysList:fracDisplay.numerator parentPosition:numeratorPosition];
-            CGPoint denominatorPosition = CGPointSumPoint(newPosition, fracDisplay.denominatorOffset);
+            CGPoint denominatorPosition = CGPointAddOffsetY(newPosition, fracDisplay.denominatorOffset.y);
             [self transformDisplaysList:fracDisplay.denominator parentPosition:denominatorPosition];
         }else if ([display isKindOfClass:[MTRadicalDisplay class]]) {
             MTRadicalDisplay *radicalDisplay = (MTRadicalDisplay *)display;
