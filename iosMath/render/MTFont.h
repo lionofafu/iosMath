@@ -8,6 +8,8 @@
 //  MIT license. See the LICENSE file for details.
 //
 
+#import <UIKit/UIKit.h>
+
 @import CoreText;
 @import CoreGraphics;
 @import Foundation;
@@ -22,5 +24,10 @@
 
 /** The size of this font in points. */
 @property (nonatomic, readonly) CGFloat fontSize;
+
+/** Access to the raw UIFont if needed.
+ * Modify by jiangxiaolong
+ */
+@property (nonatomic, readonly, nonnull) UIFont *uiFont;
 
 @end

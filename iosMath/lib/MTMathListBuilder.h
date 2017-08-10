@@ -86,4 +86,9 @@ typedef NS_ENUM(NSUInteger, MTParseErrors) {
     MTParseErrorInvalidLimits,
 };
 
+/** 遍历MTMathList的所有atom，收集所有MTMathCustom
+ *  Modify by jiangxiaolong
+ */
++ (NSMutableArray<MTMathCustom *> *_Nullable)collectMathCustomWith:(MTMathList *_Nullable)mathList;
+
 @end

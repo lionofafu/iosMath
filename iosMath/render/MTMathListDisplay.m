@@ -818,9 +818,13 @@ static BOOL isIos6Supported() {
     if (self) {
         self.position = position;
         self.range = range;
-        self.width = 40;
-        self.descent = 5;
-        self.ascent = 15;
+        self.width = customAtom.desiredSize.width;
+        if (customAtom.descent > 0) {
+            self.descent = customAtom.descent;
+        }else {
+            self.descent = 5;
+        }
+        self.ascent = customAtom.desiredSize.height - self.descent;
     }
     return self;
 }
@@ -829,7 +833,7 @@ static BOOL isIos6Supported() {
 {
     CGContextSaveGState(context);
     
-    [[UIColor greenColor] setStroke];
+    [[UIColor clearColor] setStroke];
     
     CGRect bounds = [self displayBounds];
     MTBezierPath* path = [MTBezierPath bezierPathWithRect:bounds];

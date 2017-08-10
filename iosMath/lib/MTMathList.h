@@ -310,6 +310,9 @@ typedef NS_ENUM(NSUInteger, MTFontStyle)
 /** 自定义字符串 */
 @property (nonatomic, nullable) NSString* customString;
 
+@property (nonatomic, assign) CGSize  desiredSize;
+@property (nonatomic, assign) CGFloat descent;
+
 @end
 
 /**

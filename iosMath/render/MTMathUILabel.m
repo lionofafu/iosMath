@@ -110,7 +110,6 @@
     _error = nil;
     NSError* error = nil;
     _mathList = [MTMathListBuilder buildFromString:latex error:&error];
-    
     if (error) {
         _mathList = nil;
         _error = error;
@@ -201,6 +200,7 @@
 }
 #endif
 
+/// Modify by jiangxiaolong
 - (CGSize) sizeThatFits:(CGSize)size
 {
     size.width = self.displayList.width + self.contentInsets.left + self.contentInsets.right;
@@ -208,12 +208,6 @@
     return size;
 }
 
-- (CGSize) intrinsicContentSize
-{
-    return [self sizeThatFits:CGSizeZero];
-}
-
-/// Modify by jiangxiaolong
 - (void)calculateDisplayListPosition
 {
     CGSize size;
@@ -255,5 +249,10 @@
     }
 }
 /// Modify end
+
+- (CGSize) intrinsicContentSize
+{
+    return [self sizeThatFits:CGSizeZero];
+}
 
 @end

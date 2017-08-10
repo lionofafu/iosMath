@@ -935,4 +935,37 @@ NSString *const MTParseError = @"ParseError";
     return [str copy];
 }
 
+/** 遍历MTMathList的所有atom，收集所有MTMathCustom
+ *  Modify by jiangxiaolong
+ */
++ (NSMutableArray<MTMathCustom *> *_Nullable)collectMathCustomWith:(MTMathList *_Nullable)mathList
+{
+    return [self internal_CollectMathCustomWith:mathList];
+}
+
++ (NSMutableArray<MTMathCustom *> *_Nullable)internal_CollectMathCustomWith:(MTMathList *_Nullable)mathList
+{
+    NSMutableArray *customArray = [NSMutableArray array];
+    for (MTMathAtom *atom in mathList.atoms) {
+        if ([atom isKindOfClass:[MTMathCustom class]]) {
+            [customArray addObject:atom];
+        }else if ([atom isKindOfClass:[MTAccent class]]) {
+            MTAccent *accent = (MTAccent *)atom;
+            NSMutableArray *accentCustoms = [self internal_CollectMathCustomWith:accent.innerList];
+            [customArray addObjectsFromArray:accentCustoms];
+        }else if ([atom isKindOfClass:[MTFraction class]]) {
+            MTFraction *fraction = (MTFraction *)atom;
+            NSMutableArray *numeratorCustoms = [self internal_CollectMathCustomWith:fraction.numerator];
+            [customArray addObjectsFromArray:numeratorCustoms];
+            NSMutableArray *denominatorCustoms = [self internal_CollectMathCustomWith:fraction.denominator];
+            [customArray addObjectsFromArray:denominatorCustoms];
+        }else if ([atom isKindOfClass:[MTRadical class]]) {
+            MTRadical *radical = (MTRadical *)atom;
+            NSMutableArray *radicandCustoms = [self internal_CollectMathCustomWith:radical.radicand];
+            [customArray addObjectsFromArray:radicandCustoms];
+        }
+    }
+    return customArray;
+}
+
 @end

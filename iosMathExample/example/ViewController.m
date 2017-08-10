@@ -90,39 +90,36 @@
     //@"x = 1234#{fdsafdsa}#\\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}"
     
     MTMathUILabel* label = [[MTMathUILabel alloc] init];
-    label.latex = @"a8\\pi+\\frac{1#{fdsafdsa}#}{#{fdsafdsa}#}+\\sqrt{b#{fdsafdsa}#c} + r#{fdsafdsa}#r_{2#{fdsafdsa}#2}";//@"r#{fdsafdsa}#r_{2#{fdsafdsa}#2}";//@"0.1\\dot{1a#{dsa}#a2}";//@"\\sqrt{b#{fdsafdsa}#c}";// @"1234#{fdsafdsa}#a";
-    label.fontSize = 20;
+    label.fontSize = 40;
+    label.font = [[MTFontManager fontManager] termesFontWithSize:label.font.fontSize];
+    label.latex = @"xyz1234567890";//@"a8\\pi+\\frac{1#{fdsafdsa}#}{#{fdsafdsa}#}+\\sqrt{b#{fdsafdsa}#c} + r#{fdsafdsa}#r_{2#{fdsafdsa}#2}";//@"r#{fdsafdsa}#r_{2#{fdsafdsa}#2}";//@"0.1\\dot{1a#{dsa}#a2}";//@"\\sqrt{b#{fdsafdsa}#c}";// @"1234#{fdsafdsa}#a";
     CGRect frame = CGRectMake(10, 100, [UIScreen mainScreen].bounds.size.width - 20, 40);
     label.frame = frame;
     label.backgroundColor = [UIColor lightGrayColor];
     [label setNeedsLayout];
 //    [label sizeToFit];
     [self.view addSubview:label];
-
-    label.font = [[MTFontManager fontManager] termesFontWithSize:label.font.fontSize];
-    /*
+    
     MTMathUILabel* label2 = [[MTMathUILabel alloc] init];
-    label2.latex =@"\\dot{8}+\\frac{-12345#{fdsafdsa}#67890}{qwertuiopasdfghjklzxcvbnm}";//@"\\sqrt{b#{fdsafdsa}#c}";// @"1234#{fdsafdsa}#a";
-    label2.fontSize = 20;
+    label2.fontSize = 40;
+    label2.font = [[MTFontManager fontManager] latinModernFontWithSize:label2.fontSize];
+    label2.latex =@"xyz1234567890";//@"\\sqrt{b#{fdsafdsa}#c}";// @"1234#{fdsafdsa}#a";
     CGRect frame2 = CGRectMake(10, 200, [UIScreen mainScreen].bounds.size.width - 20, 40);
     label2.frame = frame2;
     label2.backgroundColor = [UIColor lightGrayColor];
     [label2 sizeToFit];
     [self.view addSubview:label2];
     
-    label2.font = [[MTFontManager fontManager] latinModernFontWithSize:label.font.fontSize];
-    
     MTMathUILabel* label3 = [[MTMathUILabel alloc] init];
-    label3.latex =@"\\frac{-12345#{fdsafdsa}#67890}{qwertuiopasdfghjklzxcvbnm}";//@"\\sqrt{b#{fdsafdsa}#c}";// @"1234#{fdsafdsa}#a";
-    label3.fontSize = 20;
+    label3.fontSize = 40;
+    label3.font = [[MTFontManager fontManager] xitsFontWithSize:label3.fontSize];
+    label3.latex =@"xyz1234567890";//@"\\sqrt{b#{fdsafdsa}#c}";// @"1234#{fdsafdsa}#a";
     CGRect frame3 = CGRectMake(10, 300, [UIScreen mainScreen].bounds.size.width - 20, 40);
     label3.frame = frame3;
     label3.backgroundColor = [UIColor lightGrayColor];
     [label3 sizeToFit];
     [self.view addSubview:label3];
     
-    label3.font = [[MTFontManager fontManager] xitsFontWithSize:label.font.fontSize];
-    */
     /*
     [self addLabelAsSubview:self.demoLabels[0] to:contentView];
     // This is first label so set the height from the top

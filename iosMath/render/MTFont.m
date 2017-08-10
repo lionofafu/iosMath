@@ -30,14 +30,17 @@
         // In particular it does not have the math italic characters which breaks our variable rendering.
         // So we first load a CGFont from the file and then convert it to a CTFont.
 
-        NSBundle* bundle = [MTFont fontBundle];
+        /// Modify by jiangxiaolong
+        NSBundle* bundle = [NSBundle mainBundle];
         NSString* fontPath = [bundle pathForResource:name ofType:@"otf"];
         CGDataProviderRef fontDataProvider = CGDataProviderCreateWithFilename(fontPath.UTF8String);
         self.defaultCGFont = CGFontCreateWithDataProvider(fontDataProvider);
         CFRelease(fontDataProvider);
 
         self.ctFont = CTFontCreateWithGraphicsFont(self.defaultCGFont, size, nil, nil);
-
+        CTFontManagerRegisterGraphicsFont(self.defaultCGFont, NULL);
+        NSString *fontName = (NSString *)CFBridgingRelease(CGFontCopyPostScriptName(self.defaultCGFont));
+        _uiFont = [UIFont fontWithName:fontName size:size];
         NSString* mathTablePlist = [bundle pathForResource:name ofType:@"plist"];
         NSDictionary* dict = [NSDictionary dictionaryWithContentsOfFile:mathTablePlist];
         self.rawMathTable = dict;
@@ -59,6 +62,9 @@
     // Retain the font as we are adding another reference to it.
     CGFontRetain(copyFont.defaultCGFont);
     copyFont.ctFont = CTFontCreateWithGraphicsFont(self.defaultCGFont, size, nil, nil);
+    CTFontManagerRegisterGraphicsFont(self.defaultCGFont, NULL);
+    NSString *fontName = (NSString *)CFBridgingRelease(CGFontCopyPostScriptName(self.defaultCGFont));
+    copyFont->_uiFont = [UIFont fontWithName:fontName size:size];
     copyFont.rawMathTable = self.rawMathTable;
     copyFont.mathTable = [[MTFontMathTable alloc] initWithFont:copyFont mathTable:copyFont.rawMathTable];
     return copyFont;

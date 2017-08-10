@@ -665,6 +665,8 @@ static NSString* typeToText(MTMathAtomType type) {
 {
     MTMathCustom* op = [super copyWithZone:zone];
     op->_customString = self.customString;
+    op->_desiredSize = self.desiredSize;
+    op->_descent = self.descent;
     return op;
 }
 
